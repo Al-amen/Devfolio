@@ -39,7 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     "corsheaders",
+    'blogapp',
 ]
+
+AUTH_USER_MODEL = 'blogapp.Customuser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
