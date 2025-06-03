@@ -4,7 +4,7 @@ import { Switch } from "@/components/ui/switch"
 import ResponsiveNavbar from './ResponsiveNavbar';
 import { Link, NavLink } from 'react-router-dom';
 
-export const Navbar = () => {
+export const Navbar = ({ darkMode, handleDarkMode }) => {
     const [showNavBar, setShowNavBar] = React.useState(false);
     const toggleNavBar = () => {
         setShowNavBar(!showNavBar);
@@ -28,7 +28,7 @@ export const Navbar = () => {
           <li className="font-semibold">Create post</li>
         </ul>
 
-        <Switch />
+        <Switch checked={darkMode} onCheckedChange={handleDarkMode} />
         <FaHamburger className="text-2xl cursor-pointer hidden max-md:block dark:text-white" onClick={toggleNavBar}  />
        
       </nav> 
