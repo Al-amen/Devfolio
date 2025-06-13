@@ -1,4 +1,4 @@
-from datetime import timezone
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils.text import slugify
@@ -11,12 +11,12 @@ class Customuser(AbstractUser):
     profile_picture_url = models.URLField(blank=True, null=True)
     job_title = models.CharField(max_length=100, blank=True, null=True)
 
-    facebooks = models.URLField(blank=True, null=True)
-    youtubes = models.URLField(blank=True, null=True)
-    twitters = models.URLField(blank=True, null=True)
-    instagrams = models.URLField(blank=True, null=True)
-    linkedins = models.URLField(blank=True, null=True)
-    githubs = models.URLField(blank=True, null=True)
+    facebook = models.URLField(blank=True, null=True)
+    youtube = models.URLField(blank=True, null=True)
+    twitter = models.URLField(blank=True, null=True)
+    instagram = models.URLField(blank=True, null=True)
+    linkedin = models.URLField(blank=True, null=True)
+    github = models.URLField(blank=True, null=True)
 
     # USERNAME_FIELD = 'username'
     # REQUIRED_FIELDS = ['email']
@@ -46,7 +46,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     content = models.TextField()
-    author = models.ForeignKey(Customuser, on_delete=models.SET_NULL, null=True, related_name='blogs')
+    author = models.ForeignKey(Customuser, on_delete=models.SET_NULL, null=True, related_name='blog_posts')
     category = models.CharField(max_length=100, choices=CATEGORY,blank=True,null=True)
     featured_image = models.ImageField(upload_to='featured_images/', blank=True, null=True)
     is_draft = models.BooleanField(default=False)
@@ -71,7 +71,7 @@ class Blog(models.Model):
             counter += 1
         self.slug = slug
 
-        if not self.is_draft and self.published_at is None:
-            self.published_at = timezone.now()
+        if not self.is_draft:
+            self.published_date = timezone.now()
 
         super().save(*args, **kwargs)
