@@ -22,7 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<AppLayout />}>
             <Route index element={<HomePage />} />
-            <Route path="detail" element={<DatailPage />} />
+            <Route path="detail_blog/:slug" element={<DatailPage />} />
             <Route path="profile" element={<ProfilePage />} />
           </Route>
         </Routes>

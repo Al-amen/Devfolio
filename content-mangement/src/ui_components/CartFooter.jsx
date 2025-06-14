@@ -2,7 +2,7 @@ import React from "react";
 
 import pic from "../images/pic.jpg"
 import { BaseURL } from "@/api";
-import { FormatDate } from "../services/formateDate"
+import { FormatDate } from "../services/FormateDate"
 
 export const CartFooter = ({blog}) => {
   return (

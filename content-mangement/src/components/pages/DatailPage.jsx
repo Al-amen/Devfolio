@@ -2,38 +2,48 @@ import Badge from "@/ui_components/Badge";
 import React from "react";
 import banner from "../../images/detailBanner.jpg"
 import { BlogWriter } from "@/ui_components/BlogWriter";
+import { useQuery } from "@tanstack/react-query";
+import { blog_detail } from "@/services/ApiBlog";
+import { useParams } from "react-router-dom";
+import { BaseURL } from "@/api";
+import Spinner from "@/ui_components/Spinner";
+
 
 
 const DatailPage = () => {
+  const { slug } = useParams();
+  const {
+    isPending,
+    isError,
+    error,
+    data: blog,
+  } = useQuery({
+    queryKey: ["detail_blog", slug],
+    queryFn: () => blog_detail(slug),
+  });
+
+  console.log(blog);
+
+  if (isPending) {
+    return <Spinner />;
+  }
   return (
     <div className="padding-dx max-container py-9">
-      <Badge />
+      <Badge blog={blog} />
 
       <div className="flex justify-between items-center">
         <h2 className="py-6 leading-normal text-2xl md:text-3xl text-[#181A2A] tracking-wide font-semibold dark:text-[#FFFFFF]">
-          Build and Ecommerce Web App with Django and React
+          {blog?.title}
         </h2>
       </div>
 
-      <BlogWriter/>
+      <BlogWriter blog={blog} />
 
       <div className="w-full h-[350px] my-9 overflow-hidden rounded-sm">
-        <img className="w-full h-full object-cover rounded-sm" src={banner} />
+        <img className="w-full h-full object-cover rounded-sm" src={`${BaseURL}${blog?.featured_image}`} />
       </div>
       <p className="text-[16px] leading-[2rem] text-justify text-[#3B3C4A] dark:text-[#BABABF]">
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-        voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum
-        quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam
-        eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-        voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam
-        corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
-        Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-        quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-        voluptas nulla pariatur?
+        {blog?.content}
       </p>
     </div>
   );

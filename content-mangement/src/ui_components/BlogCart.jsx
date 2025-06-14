@@ -21,7 +21,7 @@ export const BlogCart = ({blog}) => {
       </div>
 
       <Badge blog={blog} />
-      <Link to="/detail">
+      <Link to= {`/detail_blog/${blog.slug}`}>
         <h3 className="font-semibold  leading-normal text-[#181A2A] mb-0 dark:text-white">
           {blog.title}
         </h3>
