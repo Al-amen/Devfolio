@@ -15,13 +15,15 @@ const AppLayout = () => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("dark") === "true"
   );
+
   const handleDarkMode = () => {
     const newDarkMode = !darkMode;
     setDarkMode(newDarkMode);
     localStorage.setItem("dark", newDarkMode ? "true" : "false");
   };
+
   return (
-    <div className={darkMode ? "dark" : ""} onClick={handleDarkMode}>
+    <div className={darkMode ? "dark" : ""}>
       <main className="w-full bg-[#ffffff] dark:bg-[#181A2A]">
         <Navbar darkMode={darkMode} handleDarkMode={handleDarkMode} />
         <ToastContainer />
@@ -31,5 +33,4 @@ const AppLayout = () => {
     </div>
   );
 };
-
 export default AppLayout;

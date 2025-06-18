@@ -13,6 +13,9 @@ import ProfilePage from "./components/pages/ProfilePage";
 import DatailPage from "./components/pages/DatailPage";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import SignupPage from "./components/pages/SignupPage";
+import CreatePostPage from "./components/pages/CreatePostPage";
+import LoginPage from "./components/pages/LoginPage";
+import ProtectedRoute from "./ui_components/ProtectedRoute";
 
 const queryClient = new QueryClient()
 
@@ -26,6 +29,8 @@ function App() {
             <Route path="detail_blog/:slug" element={<DatailPage />} />
             {/* <Route path="profile" element={<ProfilePage />} /> */}
             <Route path="signup" element={<SignupPage />} />
+            <Route path="create" element={<ProtectedRoute> <CreatePostPage /> </ProtectedRoute> } />
+            <Route path="signin" element={<LoginPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
