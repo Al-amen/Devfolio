@@ -4,11 +4,26 @@ import { Switch } from "@/components/ui/switch";
 import ResponsiveNavbar from "./ResponsiveNavbar";
 import { Link, NavLink } from "react-router-dom";
 
-export const Navbar = ({ darkMode, handleDarkMode }) => {
+export const Navbar = ({
+  darkMode,
+  handleDarkMode,
+  isAuthenticated,
+  username,
+  setIsAuthenticated,
+  setUsername,
+}) => {
   const [showNavBar, setShowNavBar] = React.useState(false);
   const toggleNavBar = () => {
     setShowNavBar(!showNavBar);
   };
+
+  function logout() {
+    localStorage.removeItem("access");
+    localStorage.removeItem("refresh");
+    setIsAuthenticated(false);
+    setUsername(null);
+  }
+  console.log('isAuthenticated', isAuthenticated);
 
   return (
     <>
@@ -17,28 +32,35 @@ export const Navbar = ({ darkMode, handleDarkMode }) => {
           DevFolio
         </Link>
         <ul className="flex items-center  justify-end gap-9 text-[#3B3C4A] lg:flex-1 max-md:hidden dark:text-[#FFFFFF]">
-          {/* <li>
-            <NavLink className={({isActive})=>isActive ? "active":""} to="/profile">Hi, Al-AMEN</NavLink>
-          </li> */}
+          {isAuthenticated ? (
+            <>
+              <li>Hi, {username}</li>
+              <li onClick={logout} className="cursor-pointer">
+                Logout
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink
+                  to="/signin"
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  Login
+                </NavLink>
+              </li>
 
-          <li>Logout</li>
-          <li>
-            <NavLink
-              to="/signin"
-              className={({ isActive }) => (isActive ? "active" : "")}
-            >
-              Login
-            </NavLink>
-          </li>
+              <li>
+                <NavLink
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                  to="/signup"
+                >
+                  Register
+                </NavLink>
+              </li>
+            </>
+          )}
 
-          <li>
-            <NavLink
-              className={({ isActive }) => (isActive ? "active" : "")}
-              to="/signup"
-            >
-              Register
-            </NavLink>
-          </li>
           <li className="font-semibold">
             <NavLink
               to="/create"
@@ -55,7 +77,14 @@ export const Navbar = ({ darkMode, handleDarkMode }) => {
           onClick={toggleNavBar}
         />
       </nav>
-      {showNavBar && <ResponsiveNavbar />}
+
+      {showNavBar && (
+        <ResponsiveNavbar
+          isAuthenticated={isAuthenticated}
+          username={username}
+          logout={logout}
+        />
+      )}
     </>
   );
 };

@@ -4,7 +4,7 @@ import Spinner from "./Spinner";
 
 const BlogContainer = ({ isPending, blogs }) => {
   
-  console.log('blog-cart', blogs);
+
 
   if (isPending) {
     return <Spinner />;

@@ -16,25 +16,67 @@ import SignupPage from "./components/pages/SignupPage";
 import CreatePostPage from "./components/pages/CreatePostPage";
 import LoginPage from "./components/pages/LoginPage";
 import ProtectedRoute from "./ui_components/ProtectedRoute";
-
-const queryClient = new QueryClient()
+import { getUsername } from "./services/ApiBlog";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
 
 function App() {
+  const [username, setUsername] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const { data } = useQuery({
+    queryKey: ["username"],
+    queryFn: getUsername,
+  });
+  console.log(data);
+
+  useEffect(
+    function () {
+      if (data) {
+        setUsername(data.username);
+        setIsAuthenticated(true);
+      }
+    },
+    [data]
+  );
+ 
   return (
-    <QueryClientProvider client={queryClient}>
+    
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AppLayout />}>
+         
+          <Route path="/" element={<AppLayout
+                isAuthenticated={isAuthenticated}
+                username={username}
+                setUsername={setUsername}
+                setIsAuthenticated={setIsAuthenticated}
+              />}>
             <Route index element={<HomePage />} />
             <Route path="detail_blog/:slug" element={<DatailPage />} />
             {/* <Route path="profile" element={<ProfilePage />} /> */}
             <Route path="signup" element={<SignupPage />} />
-            <Route path="create" element={<ProtectedRoute> <CreatePostPage /> </ProtectedRoute> } />
-            <Route path="signin" element={<LoginPage />} />
+            <Route
+              path="create"
+              element={
+                <ProtectedRoute>
+                  {" "}
+                  <CreatePostPage />{" "}
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="signin"
+              element={
+                <LoginPage
+                  setIsAuthenticated={setIsAuthenticated}
+                  setUsername={setUsername}
+                />
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>
-    </QueryClientProvider>
+ 
   );
 }
 

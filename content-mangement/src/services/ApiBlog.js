@@ -63,3 +63,14 @@ export async function signin(data){
   }
 
 }
+
+
+
+export async function getUsername() {
+  try {
+    const response = await api.get("get_username/");
+    return response.data;
+  } catch (err) {
+    throw new Error(err.message);
+  }
+}
