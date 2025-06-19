@@ -78,9 +78,9 @@ def delete_blog(request, pk):
     return Response({"message": "Blog deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
-def user_info(request, pk):
+def user_info(request, username):
     try:
-        user = User.objects.get(pk=pk)
+        user = User.objects.get(username=username)
     except User.DoesNotExist:
         return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
 

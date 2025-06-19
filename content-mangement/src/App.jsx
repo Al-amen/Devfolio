@@ -20,6 +20,8 @@ import { getUsername } from "./services/ApiBlog";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 
+
+
 function App() {
   const [username, setUsername] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,6 +57,7 @@ function App() {
           }
         >
           <Route index element={<HomePage />} />
+          <Route path="/profile/:username" element={<ProfilePage authUsername={username} />} />
           <Route
             path="detail_blog/:slug"
             element={
@@ -64,7 +67,7 @@ function App() {
               />
             }
           />
-          {/* <Route path="profile" element={<ProfilePage />} /> */}
+         
           <Route path="signup" element={<SignupPage />} />
           <Route
             path="create"
