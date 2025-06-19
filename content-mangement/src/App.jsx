@@ -39,44 +39,54 @@ function App() {
     },
     [data]
   );
- 
+
   return (
-    
-      <BrowserRouter>
-        <Routes>
-         
-          <Route path="/" element={<AppLayout
-                isAuthenticated={isAuthenticated}
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <AppLayout
+              isAuthenticated={isAuthenticated}
+              username={username}
+              setUsername={setUsername}
+              setIsAuthenticated={setIsAuthenticated}
+            />
+          }
+        >
+          <Route index element={<HomePage />} />
+          <Route
+            path="detail_blog/:slug"
+            element={
+              <DatailPage
                 username={username}
-                setUsername={setUsername}
+                isAuthenticated={isAuthenticated}
+              />
+            }
+          />
+          {/* <Route path="profile" element={<ProfilePage />} /> */}
+          <Route path="signup" element={<SignupPage />} />
+          <Route
+            path="create"
+            element={
+              <ProtectedRoute>
+                {" "}
+                <CreatePostPage isAuthenticated={isAuthenticated} />{" "}
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="signin"
+            element={
+              <LoginPage
                 setIsAuthenticated={setIsAuthenticated}
-              />}>
-            <Route index element={<HomePage />} />
-            <Route path="detail_blog/:slug" element={<DatailPage />} />
-            {/* <Route path="profile" element={<ProfilePage />} /> */}
-            <Route path="signup" element={<SignupPage />} />
-            <Route
-              path="create"
-              element={
-                <ProtectedRoute>
-                  {" "}
-                  <CreatePostPage />{" "}
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="signin"
-              element={
-                <LoginPage
-                  setIsAuthenticated={setIsAuthenticated}
-                  setUsername={setUsername}
-                />
-              }
-            />
-          </Route>
-        </Routes>
-      </BrowserRouter>
- 
+                setUsername={setUsername}
+              />
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

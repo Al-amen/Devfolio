@@ -84,3 +84,21 @@ export async function createBlog(data) {
     throw new Error(err.message);
   }
 }
+
+
+
+
+export async function updateBlog(data, id){
+  try{
+    const response = await api.put(`update_blog/${id}/`, data)
+    return response.data
+  }
+
+  catch(err){
+    if(err.response){
+      throw new Error(err.response?.data?.message || "Failed to update blog" )
+    }
+
+    throw new Error(err.message)
+  }
+}

@@ -7,6 +7,7 @@ import { signin } from "@/services/ApiBlog";
 import { toast } from "react-toastify";
 import SmallSpinner from "@/ui_components/SamllSpinner";
 import { getUsername } from "@/services/ApiBlog";
+import SmallSpinnerText from "@/ui_components/SmallSpinnerText";
 
 const LoginPage = ({setIsAuthenticated, setUsername}) => {
   const { register, handleSubmit, formState } = useForm();
@@ -81,15 +82,15 @@ const LoginPage = ({setIsAuthenticated, setUsername}) => {
       </div>
 
       <div className="w-full flex items-center justify-center flex-col my-4">
-        <button disabled={mutation.isPending} className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2">
+      <button disabled={mutation.isPending} className="bg-[#4B6BFB] text-white w-full py-3 px-2 rounded-md flex items-center justify-center gap-2">
           {mutation.isPending ? (
             <>
               {" "}
               <SmallSpinner />{" "}
-              <small className="text-[16px]">Signing up...</small>{" "}
+              <SmallSpinnerText text="Logging in..." />
             </>
           ) : (
-            <small className="text-[16px]">Signin</small>
+            <SmallSpinnerText text="Signin" />
           )}
         </button>
         <p className="text-[14px]">
