@@ -49,10 +49,10 @@ class Blog(models.Model):
     author = models.ForeignKey(Customuser, on_delete=models.SET_NULL, null=True, related_name='blog_posts')
     category = models.CharField(max_length=100, choices=CATEGORY,blank=True,null=True)
     featured_image = models.ImageField(upload_to='featured_images/', blank=True, null=True)
-    is_draft = models.BooleanField(default=False)
+    is_draft = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    published_at = models.DateTimeField(blank=True, null=True)
+    published_at = models.DateTimeField(blank=True, null=True) 
 
 
 
@@ -65,13 +65,14 @@ class Blog(models.Model):
     def save(self, *args, **kwargs):
         base_slug = slugify(self.title)
         slug = base_slug
-        counter = 1
+        num = 1
         while Blog.objects.filter(slug=slug).exists():
-            slug = f"{base_slug}-{counter}"
-            counter += 1
+            slug = f'{base_slug}-{num}'
+            num += 1
         self.slug = slug
 
-        if not self.is_draft:
-            self.published_date = timezone.now()
+
+        if not self.is_draft and self.published_at is None:
+            self.published_at = timezone.now()
 
         super().save(*args, **kwargs)
