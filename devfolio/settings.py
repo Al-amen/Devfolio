@@ -133,6 +133,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5175",
     "http://localhost:5176",
     "http://localhost:5177",
+    "https://al-amen-devfolio.onrender.com",
 ]
 
 REST_FRAMEWORK = {
