@@ -12,13 +12,17 @@ import { MdDelete } from "react-icons/md";
 import { useState } from "react";
 import Modal from "@/ui_components/Modal";
 import CreatePostPage from "./CreatePostPage";
-
+import { deleteBlog } from "@/services/ApiBlog";
+import { useMutation } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 
 
 const DatailPage = ({ username, isAuthenticated }) => {
   const { slug } = useParams();
   const [showModal, setShowModal] = useState(false)
+  const navigate = useNavigate()
   const {
     isPending,
     isError,
@@ -29,13 +33,45 @@ const DatailPage = ({ username, isAuthenticated }) => {
     queryFn: () => blog_detail(slug),
   });
 
+  const blogID = blog?.id
+
   function toggleModal(){
     setShowModal(curr => !curr)
   }
 
+  const deleteMutation = useMutation({
+    mutationFn: (id) => deleteBlog(id),
+    onSuccess: () => {
+      toast.success("Your post has been deleted successfully!")
+      navigate("/")
+    },
+
+    onError: (err) => {
+      console.log(err)
+      toast.error(err.message)
+    }
+  })
+
+  function handleDeleteBlog(){
+    const popUp = window.confirm("Are you sure you want to delete this post?")
+    if(!popUp){
+      return;
+    }
+
+    deleteMutation.mutate(blogID)
+
+  }
+
+
+
+
+
   if (isPending) {
     return <Spinner />;
   }
+ console.log(username)
+
+
   return (
    <>
     <div className="padding-dx max-container py-9">
@@ -52,7 +88,7 @@ const DatailPage = ({ username, isAuthenticated }) => {
               className="dark:text-white text-3xl cursor-pointer"
             />
 
-            <MdDelete className="dark:text-white text-3xl cursor-pointer" />
+            <MdDelete onClick={handleDeleteBlog}  className="dark:text-white text-3xl cursor-pointer" />
           </span>
         )}
       </div>
